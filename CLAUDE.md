@@ -10,7 +10,7 @@ An interactive atlas of 34 Indian bridges and monuments. The whole site is one h
 
 There is no build, lint, test suite or package manager. Open `index.html` in a browser. To jump to one structure, add its `id` as a hash, for example `#taj`, `#chenab` or `#pamban`.
 
-The site is deployed with GitHub Pages from the root of `main` (remote `kuntal-hub/Bharat_in_Elevation`) and is live at https://kuntal-hub.github.io/Bharat_in_Elevation/. Pushing to `main` redeploys it, so keep the page at `index.html` in the repository root.
+The site is deployed with GitHub Pages from the root of `main` (remote `kuntal-hub/Bharat_in_Elevation`) and is live at https://bharat-in-elevation.kuntalmaity.in/. Pushing to `main` redeploys it, so keep the page at `index.html` in the repository root. The root `CNAME` file sets the custom domain; deleting it takes the site off that domain.
 
 Check changes by eye in the browser. The layout switches at these widths, so test both sides of each:
 - Bridge charts go narrow below 560 px of chart width.

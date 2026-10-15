@@ -2,13 +2,13 @@
 
 An interactive atlas of India's famous bridges and monuments, each one drawn as a chart from its published dimensions. Bridges are plotted as height-over-distance profiles in animated river and sea scenes. Monuments are drawn as true-scale front elevations in their surroundings. The whole site is a single HTML file and uses no images: every scene, building, vehicle and person is drawn with SVG, HTML and CSS.
 
-**Live site: <https://kuntal-hub.github.io/Bharat_in_Elevation/>**
+**Live site: <https://bharat-in-elevation.kuntalmaity.in/>**
 
 ![Taj Mahal at night](screenshots/taj-night.png)
 
 ## Quick start
 
-Open the [live site](https://kuntal-hub.github.io/Bharat_in_Elevation/), or run it locally:
+Open the [live site](https://bharat-in-elevation.kuntalmaity.in/), or run it locally:
 
 1. Download `index.html`.
 2. Open it in any modern browser (Chrome, Edge, Firefox or Safari).
@@ -116,7 +116,7 @@ The page follows your device's light or dark mode. Every chart redraws to fit wh
 - **Fonts.** The page loads Rozha One, Hind and IBM Plex Mono from Google Fonts. Offline, it falls back to system fonts and still works fully.
 - **Animation.** Vehicles move with SVG `animateMotion`; sky, water and clouds use CSS animations. Charts pause their animation when scrolled off screen, and motion is reduced when the system's "reduce motion" setting is on.
 - **Full screen.** Uses the browser's Fullscreen API. Where the browser doesn't allow it, the chart expands to fill the window instead.
-- **Deep links.** Open the file with a structure's ID after `#` to jump straight to it, for example [`#taj`](https://kuntal-hub.github.io/Bharat_in_Elevation/#taj) or [`#chenab`](https://kuntal-hub.github.io/Bharat_in_Elevation/#chenab).
+- **Deep links.** Open the file with a structure's ID after `#` to jump straight to it, for example [`#taj`](https://bharat-in-elevation.kuntalmaity.in/#taj) or [`#chenab`](https://bharat-in-elevation.kuntalmaity.in/#chenab).
 
 ## Data and accuracy
 
