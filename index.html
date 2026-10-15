@@ -101,14 +101,24 @@ button,input,select{font:inherit;color:inherit}
 .nav::-webkit-scrollbar{display:none}
 .nav a{white-space:nowrap;text-decoration:none;color:var(--mute);font-size:.88rem;padding:6px 10px;border-radius:6px}
 .nav a:hover{color:var(--ink);background:var(--surface2)}
+.nav a[aria-current="true"]{color:var(--ink);box-shadow:inset 0 -2px 0 var(--accent);border-radius:6px 6px 0 0}
 .ctl{display:flex;flex-wrap:wrap;gap:8px}
+.menub{display:none;align-items:center;gap:6px;flex:none;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:8px;padding:5px 10px;font-size:.84rem;cursor:pointer}
+.menub .x,.bar.open .menub .h{display:none}
+.bar.open .menub .x{display:inline}
+.bar.open .menub{background:var(--ink);color:var(--surface);border-color:var(--ink)}
+.jump{display:none}
+.jump h3{font-family:var(--mono);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);margin:10px 0 2px}
+.jump div{display:grid;grid-template-columns:repeat(auto-fill,minmax(128px,1fr));gap:0 10px}
+.jump a{display:block;padding:7px 6px;border-radius:6px;color:var(--ink);text-decoration:none;font-size:.9rem;line-height:1.25}
+.jump a:hover,.jump a:active{background:var(--surface)}
 .seg{display:inline-flex;border:1px solid var(--line);border-radius:8px;background:var(--surface);padding:2px}
 .seg button{border:0;background:none;padding:4px 10px;border-radius:6px;font-size:.82rem;cursor:pointer;color:var(--mute)}
 .seg button[aria-pressed="true"]{background:var(--ink);color:var(--surface)}
 .seg .lbl{font-family:var(--mono);font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);padding:5px 6px 0 6px}
 
 /* sections */
-section{padding-top:44px;scroll-margin-top:64px}
+section{padding-top:44px;scroll-margin-top:calc(var(--barh,52px) + env(safe-area-inset-top,0px) + 12px)}
 .shead{display:grid;gap:6px;margin-bottom:16px}
 .shead .num{font-family:var(--mono);font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
 .shead h2{font-size:clamp(1.7rem,4vw,2.4rem)}
@@ -177,7 +187,7 @@ section{padding-top:44px;scroll-margin-top:64px}
 .cards{display:grid;gap:22px}
 .cards.two{grid-template-columns:repeat(2,minmax(0,1fr))}
 @media (max-width:1000px){.cards.two{grid-template-columns:1fr}}
-.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;display:grid;gap:10px;min-width:0;scroll-margin-top:70px;align-content:start}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;display:grid;gap:10px;min-width:0;scroll-margin-top:calc(var(--barh,52px) + env(safe-area-inset-top,0px) + 14px);align-content:start}
 .cards.two .card.wide{grid-column:1/-1}
 .card.flash{animation:flash 1.6s ease}
 @keyframes flash{0%,40%{box-shadow:0 0 0 3px var(--accent-fill)}100%{box-shadow:0 0 0 0 transparent}}
@@ -301,7 +311,40 @@ body[data-sky="night"] .scene{--s1:#04060f;--s2:#0b1636;--s3:#1c2f66;--s4:#3a4f9
 footer{margin-top:48px;padding-top:18px;border-top:1px solid var(--line);color:var(--mute);font-size:.86rem;display:grid;gap:8px}
 footer p{margin:0;max-width:80ch}
 footer a{color:var(--accent)}
-@media (max-width:640px){.bar{position:static}}
+/* long lists fold on small screens (JS adds .shut only when the list is taller than this) */
+.fold.shut{max-height:380px;overflow:hidden;position:relative}
+.fold.shut::after{content:"";position:absolute;left:0;right:0;bottom:0;height:72px;background:linear-gradient(rgba(255,255,255,0),var(--surface));pointer-events:none}
+.foldb{display:flex;justify-content:center;align-items:center;gap:6px;width:100%;margin-top:8px;padding:8px 12px;border:1px solid var(--line);border-radius:8px;background:var(--surface2);color:var(--ink);font-family:var(--mono);font-size:.78rem;cursor:pointer}
+.foldb::after{content:"";width:6px;height:6px;border:solid currentColor;border-width:0 1.5px 1.5px 0;transform:translateY(-2px) rotate(45deg)}
+.foldb[aria-expanded="true"]::after{transform:translateY(2px) rotate(-135deg)}
+/* compact bar: one row of section links plus a menu holding the controls and a jump list */
+@media (max-width:760px),(max-height:520px){
+  .bar .wrap{flex-wrap:nowrap;gap:8px;padding-block:6px}
+  .nav{flex:1 1 auto;-webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 28px),transparent);mask-image:linear-gradient(90deg,#000 calc(100% - 28px),transparent)}
+  .nav::after{content:"";flex:0 0 22px}
+  .nav a{padding:6px 9px}
+  .menub{display:inline-flex}
+  .ctl{display:none;position:absolute;top:100%;left:0;right:0;align-content:start;gap:10px;
+    padding:12px max(16px,env(safe-area-inset-right,0px)) 16px max(16px,env(safe-area-inset-left,0px));
+    background:var(--bg);border-block:1px solid var(--line);box-shadow:0 14px 28px rgba(0,0,0,.14);
+    max-height:calc(100vh - 64px);max-height:calc(100dvh - 64px);overflow-y:auto;overscroll-behavior:contain}
+  .bar.open .ctl{display:flex}
+  .ctl .pick{order:1;flex:1 1 100%;min-width:0;max-width:none}
+  .jump{display:block;order:2;flex:1 1 100%}
+}
+/* phones: plates run edge to edge and each chart sits directly under its title */
+@media (max-width:640px){
+  section{padding-top:32px}
+  .card,.panel{margin-left:calc(-1*max(16px,env(safe-area-inset-left,0px)));margin-right:calc(-1*max(16px,env(safe-area-inset-right,0px)));border-radius:0;border-left:0;border-right:0}
+  .card{padding:14px 16px 16px}
+  .panel{padding:14px 16px}
+  .card .scene{margin-inline:-16px;border-radius:0}
+  .card>.scene,.card>.twin{order:1}
+  .card>.legend{order:2}
+  .card>.cap{order:3}
+  .card>.lede{order:4}
+  .card>.stats{order:5}
+}
 @media (prefers-reduced-motion:reduce){.chord.anim{animation:none;stroke-dasharray:none}.bird,.drift,.waves,.tw{animation:none}.lift,.ship,.track .fill,.track .v{transition:none}}
 </style>
 </head>
@@ -319,7 +362,8 @@ footer a{color:var(--accent)}
     <nav class="nav" aria-label="Sections">
       <a href="#atlas">Atlas</a><a href="#skyline">Heights</a><a href="#spans">Spans</a><a href="#timeline">Timeline</a><a href="#bridges">Bridges</a><a href="#monuments">Monuments</a>
     </nav>
-    <div class="ctl">
+    <button type="button" class="menub" id="menub" aria-expanded="false" aria-controls="ctl"><svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true"><path class="h" d="M2 4h12M2 8h12M2 12h12" fill="none" stroke="currentColor" stroke-width="1.6"/><path class="x" d="M3.5 3.5l9 9M12.5 3.5l-9 9" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>Menu</button>
+    <div class="ctl" id="ctl">
       <label class="sr" for="pick" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">View one structure</label>
       <select id="pick" class="pick"></select>
       <div class="seg" role="group" aria-label="Show">
@@ -333,6 +377,7 @@ footer a{color:var(--accent)}
         <button type="button" data-sky="sunset" aria-pressed="true">Sunset</button>
         <button type="button" data-sky="night" aria-pressed="false">Night</button>
       </div>
+      <nav class="jump" id="jump" aria-label="Jump to a structure"></nav>
     </div>
   </div>
 </div>
@@ -2407,6 +2452,36 @@ function goTo(id) {
   el.scrollIntoView({ behavior: REDUCE ? 'auto' : 'smooth', block: 'start' });
   el.classList.remove('flash'); void el.offsetWidth; el.classList.add('flash');
 }
+/* jump to a card even when the filter hides it */
+function jumpTo(id) {
+  const c = document.getElementById(id); if (!c) return;
+  if (c.classList.contains('hidden-by-filter')) { if (STATE.only) { showOnly(id); return; } STATE.filter = 'all'; applyVis(); }
+  requestAnimationFrame(() => goTo(id));
+}
+
+/* ---------- folds: long lists collapse on small screens ---------- */
+const SMALL = matchMedia('(max-width: 760px)'), FOLD_H = 380, FOLDS = [];
+const onMQ = (mq, fn) => mq.addEventListener ? mq.addEventListener('change', fn) : mq.addListener(fn);
+function fold(host, sel, on = () => true) {
+  const b = document.createElement('button');
+  b.type = 'button'; b.className = 'foldb'; b.hidden = true; b.setAttribute('aria-controls', host.id);
+  host.after(b);
+  const f = { host, b, sel, on, open: false };
+  b.addEventListener('click', () => {
+    const y = b.getBoundingClientRect().top;
+    f.open = !f.open; syncFold(f);
+    if (!f.open) scrollBy(0, b.getBoundingClientRect().top - y);
+  });
+  FOLDS.push(f);
+}
+function syncFold(f) {
+  const long = SMALL.matches && f.on() && f.host.scrollHeight > FOLD_H + 60;
+  f.host.classList.toggle('fold', long);
+  f.host.classList.toggle('shut', long && !f.open);
+  f.b.hidden = !long;
+  if (long) { f.b.textContent = f.open ? 'Show fewer' : `Show all ${f.host.querySelectorAll(f.sel).length}`; f.b.setAttribute('aria-expanded', f.open); }
+}
+const syncFolds = () => FOLDS.forEach(syncFold);
 const typeLine = d => `${d.kind === 'bridge' ? 'Bridge' : 'Monument'} · ${d.type} · ${d.yearLabel}`;
 
 /* ---------- map ---------- */
@@ -2723,12 +2798,16 @@ document.querySelectorAll('.card').forEach(c => io.observe(c));
 /* comparison plates */
 renderMap(ALL);
 renderSkyline(); renderSpans(); renderTimeline();
+fold(document.getElementById('maplist'), 'li[data-id]');
+fold(document.getElementById('skyChart'), '.brow', () => STATE.skyv === 'bar');
+fold(document.getElementById('tlChart'), 'li[data-id]', () => !!document.querySelector('#tlChart .tlv'));
+syncFolds(); onMQ(SMALL, syncFolds);
 let lastW = innerWidth;
 addEventListener('resize', () => {
   const fc = document.querySelector('.card.is-fs');
   if (fc) { clearTimeout(window._fz); window._fz = setTimeout(() => renderCard(ALL.find(d => d.id === fc.id)), 150); }
   if (Math.abs(innerWidth - lastW) < 4) return; lastW = innerWidth;
-  clearTimeout(window._rz); window._rz = setTimeout(() => { renderSkyline(); renderTimeline(); }, 150);
+  clearTimeout(window._rz); window._rz = setTimeout(() => { renderSkyline(); renderTimeline(); syncFolds(); }, 150);
 });
 
 /* visibility: filter buttons + single-structure picker */
@@ -2747,6 +2826,7 @@ function applyVis() {
   document.querySelectorAll('[data-filter]').forEach(x => x.setAttribute('aria-pressed', !only && x.dataset.filter === STATE.filter));
   filterMap();
   if (!only) { renderSkyline(); renderTimeline(); }
+  syncFolds();
   requestAnimationFrame(() => ALL.forEach(d => { const c = document.getElementById(d.id); if (!c.classList.contains('hidden-by-filter') && Math.abs((c._w || 0) - c.querySelector('.chart').clientWidth) > 3) renderCard(d); }));
 }
 document.querySelectorAll('[data-filter]').forEach(b => b.addEventListener('click', () => { STATE.filter = b.dataset.filter; STATE.only = null; pick.value = ''; applyVis(); }));
@@ -2754,14 +2834,49 @@ function showOnly(id) {
   STATE.only = id || null; pick.value = id || ''; applyVis();
   if (id) requestAnimationFrame(() => { const c = document.getElementById(id); c.scrollIntoView({ block: 'start' }); c.classList.remove('flash'); void c.offsetWidth; c.classList.add('flash'); });
 }
-pick.addEventListener('change', () => showOnly(pick.value));
+pick.addEventListener('change', () => { setMenu(false); showOnly(pick.value); });
 document.getElementById('soloAll').addEventListener('click', () => { const id = STATE.only; showOnly(''); if (id) setTimeout(() => goTo(id), 60); });
 
-document.querySelectorAll('[data-skyv]').forEach(b => b.addEventListener('click', () => { STATE.skyv = b.dataset.skyv; renderSkyline(); }));
+document.querySelectorAll('[data-skyv]').forEach(b => b.addEventListener('click', () => { STATE.skyv = b.dataset.skyv; renderSkyline(); syncFolds(); }));
 document.querySelectorAll('[data-span]').forEach(b => b.addEventListener('click', () => {
   STATE.span = b.dataset.span; document.querySelectorAll('[data-span]').forEach(x => x.setAttribute('aria-pressed', x === b)); renderSpans();
 }));
 document.getElementById('logscale').addEventListener('change', e => { STATE.log = e.target.checked; renderSpans(); });
+
+/* sticky bar: its height sets the scroll offset for section and card links */
+const topBar = document.querySelector('.bar'), menuBtn = document.getElementById('menub'), jumpList = document.getElementById('jump');
+const setBarH = () => document.documentElement.style.setProperty('--barh', topBar.offsetHeight + 'px');
+new ResizeObserver(setBarH).observe(topBar); setBarH();
+
+/* compact bar: the menu holds the controls and a jump list of every structure */
+const COMPACT = matchMedia('(max-width: 760px), (max-height: 520px)');
+const jitem = d => `<a href="#${d.id}" data-id="${d.id}"><span class="key ${d.kind === 'bridge' ? 'br' : 'mo'}"></span>${d.short || d.name}</a>`;
+jumpList.innerHTML = `<h3>Jump to a bridge</h3><div>${BRIDGES.map(jitem).join('')}</div><h3>Jump to a monument</h3><div>${MONUMENTS.map(jitem).join('')}</div>`;
+function setMenu(on) { topBar.classList.toggle('open', on); menuBtn.setAttribute('aria-expanded', on); }
+menuBtn.addEventListener('click', () => setMenu(!topBar.classList.contains('open')));
+jumpList.addEventListener('click', e => { const a = e.target.closest('a[data-id]'); if (!a) return; e.preventDefault(); setMenu(false); jumpTo(a.dataset.id); });
+document.querySelectorAll('.bar .nav a').forEach(a => a.addEventListener('click', () => setMenu(false)));
+document.addEventListener('pointerdown', e => { if (topBar.classList.contains('open') && !topBar.contains(e.target)) setMenu(false); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && topBar.classList.contains('open')) { setMenu(false); menuBtn.focus(); } });
+onMQ(COMPACT, () => setMenu(false));
+
+/* scroll-spy: mark the section in view and keep its link visible in the scrolling nav */
+const navEl = document.querySelector('.bar .nav'), navLinks = [...navEl.querySelectorAll('a')];
+let spyCur = null, spyRaf = 0;
+function spy() {
+  spyRaf = 0;
+  const line = topBar.getBoundingClientRect().bottom + 40;
+  let cur = null;
+  navLinks.forEach(a => { const s = document.getElementById(a.hash.slice(1)); if (s && !s.classList.contains('hidden-by-filter') && s.getBoundingClientRect().top <= line) cur = a; });
+  if (cur === spyCur) return;
+  if (spyCur) spyCur.removeAttribute('aria-current');
+  spyCur = cur; if (!cur) return;
+  cur.setAttribute('aria-current', 'true');
+  const nr = navEl.getBoundingClientRect(), ar = cur.getBoundingClientRect();
+  if (ar.left < nr.left || ar.right > nr.right - 24) navEl.scrollBy({ left: ar.left - nr.left - 8, behavior: REDUCE ? 'auto' : 'smooth' });
+}
+addEventListener('scroll', () => { if (!spyRaf) spyRaf = requestAnimationFrame(spy); }, { passive: true });
+spy();
 
 if (location.hash && document.getElementById(location.hash.slice(1))) setTimeout(() => goTo(location.hash.slice(1)), 300);
 

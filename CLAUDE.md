@@ -19,6 +19,8 @@ Check changes by eye in the browser. The layout switches at these widths, so tes
 - Monument charts go narrow below 480 px.
 - The Heights plate starts as bars below 640 px.
 - The timeline becomes a vertical list below 700 px.
+- At 760 px and below, or 520 px tall and below, the sticky bar becomes one row of section links plus a Menu button. The menu holds the picker, the filter and sky buttons, and a jump list of every structure. At 760 px and below, the Atlas list, Heights bars and Timeline list also fold to 380 px with a "Show all" button.
+- At 640 px and below, cards and panels run edge to edge, each bridge or monument scene fills the screen width, and the chart moves directly under the card title, above the legend and lede.
 
 Also check all three skies (Day, Sunset, Night) and both OS light and dark mode.
 
