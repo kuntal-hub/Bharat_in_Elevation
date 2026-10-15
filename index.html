@@ -3,8 +3,40 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Bharat in Elevation</title>
-<meta name="description" content="Interactive charts of India's famous bridges and monuments, drawn from published dimensions.">
+<title>Bharat in Elevation: India's Bridges &amp; Monuments Drawn to Scale</title>
+<meta name="description" content="Explore 34 famous Indian bridges and monuments in interactive charts drawn from real dimensions: Chenab Bridge, Howrah Bridge, Taj Mahal, Qutub Minar and more.">
+<link rel="canonical" href="https://bharat-in-elevation.kuntalmaity.in/">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="author" content="Kuntal Maity">
+<meta name="theme-color" content="#f1f0f6" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0e0f1d" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<!-- Link previews (WhatsApp, LinkedIn, Facebook, X, Slack, Discord). Crawlers read only the start of the page, so keep these above the stylesheet. -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Bharat in Elevation">
+<meta property="og:locale" content="en_IN">
+<meta property="og:url" content="https://bharat-in-elevation.kuntalmaity.in/">
+<meta property="og:title" content="Bharat in Elevation: India's Bridges &amp; Monuments, Drawn to Scale">
+<meta property="og:description" content="34 famous Indian bridges and monuments, from the Chenab Bridge to the Taj Mahal, drawn from their real dimensions in animated, interactive charts.">
+<meta property="og:image" content="https://bharat-in-elevation.kuntalmaity.in/og-image.jpg">
+<meta property="og:image:secure_url" content="https://bharat-in-elevation.kuntalmaity.in/og-image.jpg">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Bharat in Elevation: Howrah Bridge at sunset and the Taj Mahal at night, drawn as measured charts">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Bharat in Elevation: India's Bridges &amp; Monuments, Drawn to Scale">
+<meta name="twitter:description" content="34 famous Indian bridges and monuments, from the Chenab Bridge to the Taj Mahal, drawn from their real dimensions in animated, interactive charts.">
+<meta name="twitter:image" content="https://bharat-in-elevation.kuntalmaity.in/og-image.jpg">
+<meta name="twitter:image:alt" content="Bharat in Elevation: Howrah Bridge at sunset and the Taj Mahal at night, drawn as measured charts">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[
+  {"@type":"WebSite","@id":"https://bharat-in-elevation.kuntalmaity.in/#website","url":"https://bharat-in-elevation.kuntalmaity.in/","name":"Bharat in Elevation","inLanguage":"en-IN","author":{"@id":"https://bharat-in-elevation.kuntalmaity.in/#author"}},
+  {"@type":"WebPage","@id":"https://bharat-in-elevation.kuntalmaity.in/#page","url":"https://bharat-in-elevation.kuntalmaity.in/","name":"Bharat in Elevation: India's Bridges & Monuments Drawn to Scale","description":"Interactive charts of 34 famous Indian bridges and monuments, each drawn from its published dimensions.","isPartOf":{"@id":"https://bharat-in-elevation.kuntalmaity.in/#website"},"inLanguage":"en-IN","primaryImageOfPage":{"@type":"ImageObject","url":"https://bharat-in-elevation.kuntalmaity.in/og-image.jpg","width":1200,"height":630},"author":{"@id":"https://bharat-in-elevation.kuntalmaity.in/#author"}},
+  {"@type":"Person","@id":"https://bharat-in-elevation.kuntalmaity.in/#author","name":"Kuntal Maity","url":"https://kuntalmaity.in/","sameAs":["https://github.com/kuntal-hub"]}
+]}
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hind:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Rozha+One&display=swap">
@@ -2588,6 +2620,22 @@ document.getElementById('tally').innerHTML = `<li><b>${BRIDGES.length}</b><span 
 document.getElementById('countB').textContent = BRIDGES.length;
 document.getElementById('countM').textContent = MONUMENTS.length;
 document.getElementById('countAll').textContent = ALL.length;
+
+/* structured data: every structure as a schema.org place, so search engines can match the page to each name */
+{
+  const base = 'https://bharat-in-elevation.kuntalmaity.in/';
+  const ld = document.createElement('script');
+  ld.type = 'application/ld+json';
+  ld.textContent = JSON.stringify({
+    '@context': 'https://schema.org', '@type': 'ItemList', name: 'Bridges and monuments in Bharat in Elevation', numberOfItems: ALL.length,
+    itemListElement: ALL.map((d, i) => ({
+      '@type': 'ListItem', position: i + 1, url: base + '#' + d.id,
+      item: { '@type': d.kind === 'bridge' ? 'Bridge' : 'LandmarksOrHistoricalBuildings', name: d.name, description: d.lede.replace(/<[^>]+>/g, ''),
+        address: d.place, geo: { '@type': 'GeoCoordinates', latitude: d.lat, longitude: d.lon } }
+    }))
+  });
+  document.head.appendChild(ld);
+}
 
 const bc = document.getElementById('bridgeCards'), mc = document.getElementById('monuCards');
 bc.innerHTML = BRIDGES.map(cardHTML).join('');

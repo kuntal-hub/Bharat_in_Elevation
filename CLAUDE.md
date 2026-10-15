@@ -6,6 +6,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 An interactive atlas of 34 Indian bridges and monuments. The whole site is one hand-written file, `index.html` (about 2,700 lines), with inline CSS and vanilla JS. It uses no libraries and no images: every scene, building, vehicle and person is SVG generated at runtime. The only external resource is Google Fonts, and the page still works without it. `README.md` is the user-facing documentation, and `screenshots/` holds the images it references.
 
+Files in the root that support sharing and search, not the page itself: `og-image.jpg` (the 1200 × 630 link-preview image, a composite of `screenshots/howrah-sunset.png` and `screenshots/taj-night.png` with the title), `favicon.svg`, `apple-touch-icon.png`, `robots.txt` and `sitemap.xml`. The Open Graph, Twitter and JSON-LD tags sit at the top of `<head>`, above the stylesheet, because link-preview crawlers such as WhatsApp's read only the start of the page. Keep them there and keep their URLs absolute. A second JSON-LD block (an `ItemList` of every structure) is generated from `ALL` in the boot section.
+
 ## Running and checking changes
 
 There is no build, lint, test suite or package manager. Open `index.html` in a browser. To jump to one structure, add its `id` as a hash, for example `#taj`, `#chenab` or `#pamban`.
@@ -72,6 +74,8 @@ Copy the most similar existing definition, change the figures and add it to `BRI
 - The plate ranges in the section headings ("Plates V–XIX", "Plates XX–XXXVIII").
 - The "Twenty-three centuries" timeline heading and the `TBANDS` year bands.
 - The count of 34 and the structure tables in `README.md`.
+- The count of 34 in the `<meta name="description">`, `og:description`, `twitter:description` and the static JSON-LD `WebPage` description.
+- `og-image.jpg`, which shows "15 bridges · 19 monuments" and "2,275 years". Re-render it when those change, and bump `<lastmod>` in `sitemap.xml` when the page changes meaningfully.
 
 ## Data conventions
 

@@ -116,6 +116,7 @@ The page follows your device's light or dark mode. Every chart redraws to fit wh
 - **Fonts.** The page loads Rozha One, Hind and IBM Plex Mono from Google Fonts. Offline, it falls back to system fonts and still works fully.
 - **Animation.** Vehicles move with SVG `animateMotion`; sky, water and clouds use CSS animations. Charts pause their animation when scrolled off screen, and motion is reduced when the system's "reduce motion" setting is on.
 - **Full screen.** Uses the browser's Fullscreen API. Where the browser doesn't allow it, the chart expands to fill the window instead.
+- **Link previews and search.** The `<head>` carries Open Graph and Twitter card tags, so a shared link shows `og-image.jpg` (1200 × 630) with a title and description in WhatsApp, LinkedIn, X and other apps. Structured data (schema.org JSON-LD) describes the site and lists every structure with its location. `robots.txt` and `sitemap.xml` sit in the repository root, next to `favicon.svg` and `apple-touch-icon.png`.
 - **Deep links.** Open the file with a structure's ID after `#` to jump straight to it, for example [`#taj`](https://bharat-in-elevation.kuntalmaity.in/#taj) or [`#chenab`](https://bharat-in-elevation.kuntalmaity.in/#chenab).
 
 ## Data and accuracy
